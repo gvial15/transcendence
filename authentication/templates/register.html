@@ -5,7 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transcendence | Register</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        #toastContainer {
+            position: fixed;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+        }
+        .toast {
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+    </style>
+    
 </head>
+
+<!-- form -->
 <body class="d-flex flex-column vh-100 justify-content-center">
     <div class="mt-auto mb-3" style="height: 20vh;"></div>
     <div class="card shadow mx-auto" style="width: 22rem;">
@@ -14,16 +30,20 @@
             <form method="post">
                 {% csrf_token %}
                 <div class="mb-3">
+                    <label for="emailInput" class="form-label">Email</label>
+                    <input type="text" class="form-control" id="emailInput" name="emailInput" required>
+                </div>
+                <div class="mb-3">
                     <label for="firstNameInput" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="firstNameInput" required>
+                    <input type="text" class="form-control" id="firstNameInput" name="firstNameInput" required>
                 </div>
                 <div class="mb-3">
                     <label for="lastNameInput" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastNameInput" required>
+                    <input type="text" class="form-control" id="lastNameInput" name="lastNameInput" required>
                 </div>
                 <div class="mb-3">
                     <label for="registerPasswordInput" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="registerPasswordInput" required>
+                    <input type="password" class="form-control" id="registerPasswordInput" name="registerPasswordInput" required>
                 </div>
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary">Register</button>
@@ -33,6 +53,27 @@
         </div>
     </div>
     <div class="mt-auto" style="height: 80vh;"></div>
+
+    <!-- invalid email or password error -->
+    <div id="toastContainer">
+        {% for message in messages %}
+        <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+            <div class="d-flex">
+                <div class="toast-body">
+                    {{ message }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastList = toastElList.map(function(toastEl) {
+            return new bootstrap.Toast(toastEl, {autohide: true}).show();
+        });
+    </script>
 </body>
 </html>
