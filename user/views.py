@@ -38,4 +38,7 @@ def register_form(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('/authentication/login')
+    return redirect('/user/login')
+
+def account(request):
+    return render(request, 'account.html')
